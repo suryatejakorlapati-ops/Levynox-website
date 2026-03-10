@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEVYNOX — Elevate Your Business Online</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --c-bg:#04060f; --c-surface:#080c1a;
+  --c-blue:#0ea5e9; --c-indigo:#6366f1; --c-amber:#f59e0b; --c-orange:#f97316;
+  --c-white:#f0f4ff; --c-muted:#94a3b8; --c-border:rgba(14,165,233,0.18);
+  --font-head:'Syne',sans-serif; --font-body:'DM Sans',sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--c-bg);color:var(--c-white);font-family:var(--font-body);overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+#cur-dot{width:8px;height:8px;border-radius:50%;background:var(--c-blue);position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.15s,background 0.3s;}
+#cur-ring{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(14,165,233,0.5);position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.2s,border-color 0.3s;}
+
+/* BG */
+.bg-mesh{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 55% at 10% -5%,rgba(14,165,233,0.14) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 50% at 90% 105%,rgba(249,115,22,0.11) 0%,transparent 55%),
+             radial-gradient(ellipse 50% 40% at 55% 55%,rgba(99,102,241,0.06) 0%,transparent 60%),
+             var(--c-bg);}
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(14,165,233,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.03) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:72px;background:rgba(4,6,15,0.75);backdrop-filter:blur(24px);border-bottom:1px solid rgba(14,165,233,0.1);}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-brand img{width:38px;height:38px;object-fit:contain;}
+.nav-brand-name{font-family:var(--font-head);font-weight:800;font-size:1.25rem;letter-spacing:3px;background:linear-gradient(90deg,var(--c-blue),var(--c-amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-links{display:flex;align-items:center;gap:6px;list-style:none;}
+.nav-links a{font-size:0.82rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--c-muted);text-decoration:none;padding:8px 14px;border-radius:8px;transition:color 0.2s,background 0.2s;}
+.nav-links a:hover{color:var(--c-white);background:rgba(14,165,233,0.08);}
+.nav-btn{background:linear-gradient(135deg,var(--c-blue),var(--c-indigo))!important;color:#fff!important;border-radius:10px!important;font-family:var(--font-head)!important;font-weight:700!important;box-shadow:0 0 20px rgba(14,165,233,0.25);transition:box-shadow 0.3s,transform 0.2s!important;}
+.nav-btn:hover{box-shadow:0 0 35px rgba(14,165,233,0.5)!important;transform:translateY(-1px)!important;background:linear-gradient(135deg,var(--c-blue),var(--c-indigo))!important;}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 6% 80px;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);pointer-events:none;}
+.orb-a{width:700px;height:700px;background:radial-gradient(circle,rgba(14,165,233,0.18),transparent 70%);top:-200px;left:-200px;animation:orbF 12s ease-in-out infinite;}
+.orb-b{width:600px;height:600px;background:radial-gradient(circle,rgba(249,115,22,0.13),transparent 70%);bottom:-150px;right:-150px;animation:orbF 10s ease-in-out infinite reverse;}
+.orb-c{width:400px;height:400px;background:radial-gradient(circle,rgba(99,102,241,0.1),transparent 70%);top:30%;left:60%;animation:orbF 14s ease-in-out infinite 2s;}
+@keyframes orbF{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-40px) scale(1.05)}}
+
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.3);border-radius:100px;padding:6px 16px 6px 8px;font-size:0.72rem;font-weight:500;color:var(--c-blue);letter-spacing:1px;margin-bottom:32px;animation:fsu 0.8s ease both;}
+.badge-dot{width:8px;height:8px;border-radius:50%;background:var(--c-blue);animation:ping 2s infinite;}
+@keyframes ping{0%,100%{box-shadow:0 0 0 0 rgba(14,165,233,0.6)}50%{box-shadow:0 0 0 6px transparent}}
+
+.hero h1{font-family:var(--font-head);font-weight:800;font-size:clamp(3rem,7vw,6.5rem);line-height:1.0;letter-spacing:-2px;margin-bottom:28px;animation:fsu 0.9s ease 0.15s both;}
+.h1-plain{display:block;color:var(--c-white);}
+.h1-grad{display:block;background:linear-gradient(90deg,var(--c-blue) 0%,var(--c-indigo) 40%,var(--c-amber) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200%;animation:gradS 5s ease infinite;}
+@keyframes gradS{0%,100%{background-position:0%}50%{background-position:100%}}
+
+.hero-sub{font-size:clamp(1rem,2vw,1.2rem);font-weight:300;color:var(--c-muted);max-width:540px;line-height:1.8;margin-bottom:48px;animation:fsu 1s ease 0.3s both;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;animation:fsu 1s ease 0.45s both;}
+
+.btn-glow{padding:15px 36px;border-radius:12px;background:linear-gradient(135deg,var(--c-blue),var(--c-indigo));color:#fff;font-family:var(--font-head);font-weight:700;font-size:0.88rem;letter-spacing:1px;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;box-shadow:0 0 30px rgba(14,165,233,0.3),0 4px 20px rgba(0,0,0,0.4);transition:transform 0.2s,box-shadow 0.3s;}
+.btn-glow::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,0.2),transparent 70%);transform:translateX(-100%);animation:shim 3s infinite 1s;}
+@keyframes shim{to{transform:translateX(200%)}}
+.btn-glow:hover{transform:translateY(-3px);box-shadow:0 0 50px rgba(14,165,233,0.5),0 8px 30px rgba(0,0,0,0.5);}
+.btn-ghost{padding:15px 36px;border-radius:12px;background:transparent;border:1px solid rgba(240,244,255,0.2);color:var(--c-white);font-family:var(--font-head);font-weight:600;font-size:0.88rem;letter-spacing:1px;cursor:pointer;text-decoration:none;transition:border-color 0.3s,background 0.3s,transform 0.2s;backdrop-filter:blur(10px);}
+.btn-ghost:hover{border-color:var(--c-blue);background:rgba(14,165,233,0.08);transform:translateY(-3px);}
+
+/* HERO MOCKUPS */
+.hero-visual{margin-top:64px;position:relative;width:100%;max-width:800px;animation:fsu 1.1s ease 0.6s both;}
+.mockup-wrap{display:flex;justify-content:center;align-items:flex-end;gap:16px;}
+.mockup-card{background:rgba(8,12,26,0.9);border:1px solid rgba(14,165,233,0.2);border-radius:16px;padding:20px;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,0.6);}
+.mockup-main{width:320px;animation:cF 5s ease-in-out infinite;}
+.mockup-side{width:190px;opacity:0.65;animation:cF2 5s ease-in-out infinite 1.5s;transform:scale(0.9);}
+@keyframes cF{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes cF2{0%,100%{transform:scale(0.9) translateY(0)}50%{transform:scale(0.9) translateY(-12px)}}
+.mock-bar{display:flex;gap:5px;margin-bottom:14px;}
+.mock-dot{width:8px;height:8px;border-radius:50%;}
+.mock-dot:nth-child(1){background:#ff5f57}.mock-dot:nth-child(2){background:#febc2e}.mock-dot:nth-child(3){background:#28c840}
+.mock-line{height:6px;border-radius:4px;margin-bottom:8px;}
+.ml-blue{background:linear-gradient(90deg,var(--c-blue),var(--c-indigo))}
+.ml-dim{background:rgba(255,255,255,0.08)}
+.w100{width:100%}.w80{width:80%}.w60{width:60%}.w40{width:40%}
+.mock-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px;}
+.mock-block{height:38px;border-radius:8px;background:rgba(14,165,233,0.1);border:1px solid rgba(14,165,233,0.15);}
+.mock-block.amb{background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.15);}
+
+.scroll-cue{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(148,163,184,0.45);font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;animation:fsu 1s ease 1.2s both;}
+.scroll-line{width:1px;height:38px;background:linear-gradient(180deg,var(--c-blue),transparent);animation:scL 2s ease-in-out infinite;}
+@keyframes scL{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+@keyframes fsu{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTIONS */
+.section{padding:120px 6%;position:relative;z-index:1;}
+.sec-label{display:inline-flex;align-items:center;gap:8px;font-size:0.72rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--c-blue);margin-bottom:18px;}
+.sec-label::before{content:'';width:24px;height:1px;background:var(--c-blue);}
+h2.sec-title{font-family:var(--font-head);font-weight:800;font-size:clamp(2rem,4.5vw,3.8rem);line-height:1.1;letter-spacing:-1px;color:var(--c-white);margin-bottom:16px;}
+h2.sec-title span{background:linear-gradient(90deg,var(--c-blue),var(--c-amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sec-desc{font-size:1.02rem;color:var(--c-muted);line-height:1.8;max-width:500px;}
+.divider{height:1px;margin:0 6%;background:linear-gradient(90deg,transparent,rgba(14,165,233,0.15),transparent);}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;}
+.about-big{font-family:var(--font-head);font-weight:800;font-size:clamp(6rem,14vw,11rem);line-height:0.85;letter-spacing:-6px;background:linear-gradient(135deg,rgba(14,165,233,0.12),rgba(99,102,241,0.08));-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:absolute;top:-20px;left:-20px;pointer-events:none;z-index:0;}
+.about-vis{position:relative;}
+.about-cards{position:relative;z-index:1;display:flex;flex-direction:column;gap:12px;}
+.acard{background:rgba(8,12,26,0.85);border:1px solid var(--c-border);border-radius:14px;padding:20px 22px;display:flex;align-items:center;gap:14px;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;backdrop-filter:blur(16px);}
+.acard:hover{transform:translateX(10px);border-color:var(--c-blue);box-shadow:0 0 30px rgba(14,165,233,0.1);}
+.acard-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.ib{background:rgba(14,165,233,0.14);} .ia{background:rgba(245,158,11,0.14);} .ii{background:rgba(99,102,241,0.14);}
+.acard-title{font-family:var(--font-head);font-weight:700;font-size:0.9rem;color:var(--c-white);margin-bottom:2px;}
+.acard-desc{font-size:0.8rem;color:var(--c-muted);}
+
+.astats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px;}
+.astat{background:rgba(8,12,26,0.7);border:1px solid var(--c-border);border-radius:12px;padding:20px;text-align:center;position:relative;overflow:hidden;transition:transform 0.3s,border-color 0.3s;}
+.astat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--c-blue),var(--c-indigo));transform:scaleX(0);transition:transform 0.4s;transform-origin:left;}
+.astat:hover{transform:translateY(-4px);border-color:rgba(14,165,233,0.4);}
+.astat:hover::after{transform:scaleX(1);}
+.astat-val{font-family:var(--font-head);font-weight:800;font-size:2rem;background:linear-gradient(135deg,var(--c-blue),var(--c-amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.astat-lbl{font-size:0.75rem;color:var(--c-muted);margin-top:4px;letter-spacing:1px;}
+
+/* PLANS */
+.plans-head{text-align:center;margin-bottom:60px;}
+.plans-head .sec-desc{margin:0 auto;}
+.plans-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin:0 auto;}
+.plan{border-radius:20px;padding:40px;position:relative;overflow:hidden;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),box-shadow 0.4s;}
+.plan:hover{transform:translateY(-14px);}
+.plan-b{background:rgba(8,12,26,0.85);border:1px solid rgba(14,165,233,0.2);box-shadow:0 4px 40px rgba(0,0,0,0.4);}
+.plan-b:hover{box-shadow:0 20px 60px rgba(14,165,233,0.15),0 0 0 1px rgba(14,165,233,0.3);}
+.plan-p{background:linear-gradient(145deg,rgba(14,165,233,0.1),rgba(99,102,241,0.08),rgba(245,158,11,0.07));border:1px solid rgba(245,158,11,0.3);box-shadow:0 4px 40px rgba(0,0,0,0.5);}
+.plan-p:hover{box-shadow:0 20px 80px rgba(245,158,11,0.18),0 0 0 1px rgba(245,158,11,0.4);}
+.plan-p::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(14,165,233,0.04),transparent,rgba(245,158,11,0.04));pointer-events:none;}
+
+.plan-eye{display:inline-block;font-size:0.63rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:22px;}
+.plan-b .plan-eye{background:rgba(14,165,233,0.1);color:var(--c-blue);border:1px solid rgba(14,165,233,0.25);}
+.plan-p .plan-eye{background:rgba(245,158,11,0.1);color:var(--c-amber);border:1px solid rgba(245,158,11,0.25);}
+.plan-name{font-family:var(--font-head);font-weight:800;font-size:2.2rem;margin-bottom:8px;}
+.plan-b .plan-name{color:var(--c-white);}
+.plan-p .plan-name{background:linear-gradient(90deg,var(--c-amber),var(--c-orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.plan-tagline{font-size:0.88rem;color:var(--c-muted);margin-bottom:28px;line-height:1.6;}
+.plan-divider{height:1px;background:rgba(255,255,255,0.06);margin-bottom:24px;}
+.plan-feat{display:flex;align-items:flex-start;gap:12px;padding:9px 0;font-size:0.9rem;color:#b8cce0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.plan-feat:last-of-type{border:none;}
+.pcheck{width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.68rem;flex-shrink:0;margin-top:1px;}
+.plan-b .pcheck{background:rgba(14,165,233,0.15);color:var(--c-blue);}
+.plan-p .pcheck{background:rgba(245,158,11,0.15);color:var(--c-amber);}
+.plan-cta{display:block;width:100%;margin-top:28px;padding:14px;border-radius:12px;text-align:center;font-family:var(--font-head);font-weight:700;font-size:0.85rem;letter-spacing:1px;cursor:pointer;border:none;transition:all 0.3s;text-decoration:none;}
+.plan-b .plan-cta{background:rgba(14,165,233,0.1);color:var(--c-blue);border:1px solid rgba(14,165,233,0.3);}
+.plan-b .plan-cta:hover{background:var(--c-blue);color:#000;box-shadow:0 0 30px rgba(14,165,233,0.4);}
+.plan-p .plan-cta{background:linear-gradient(135deg,var(--c-amber),var(--c-orange));color:#000;}
+.plan-p .plan-cta:hover{box-shadow:0 0 40px rgba(245,158,11,0.5);transform:scale(1.02);}
+.pop-tag{position:absolute;top:22px;right:22px;background:linear-gradient(135deg,var(--c-amber),var(--c-orange));color:#000;font-family:var(--font-head);font-weight:700;font-size:0.58rem;letter-spacing:2px;padding:5px 12px;border-radius:100px;animation:pBounce 3s ease-in-out infinite;}
+@keyframes pBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+
+/* HOW */
+.how-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:80px;align-items:center;}
+.how-steps-list{display:flex;flex-direction:column;}
+.hstep{display:flex;gap:18px;padding:26px 22px;border-radius:14px;cursor:pointer;transition:background 0.3s,transform 0.3s;position:relative;}
+.hstep:hover,.hstep.active{background:rgba(14,165,233,0.07);transform:translateX(8px);}
+.hstep::after{content:'';position:absolute;left:41px;bottom:0;width:1px;height:26px;background:linear-gradient(180deg,rgba(14,165,233,0.3),transparent);}
+.hstep:last-child::after{display:none;}
+.hnum{width:40px;height:40px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:0.82rem;background:rgba(14,165,233,0.1);color:var(--c-blue);border:1px solid rgba(14,165,233,0.2);transition:all 0.3s;}
+.hstep.active .hnum,.hstep:hover .hnum{background:var(--c-blue);color:#000;border-color:var(--c-blue);}
+.hstep-title{font-family:var(--font-head);font-weight:700;font-size:0.98rem;color:var(--c-white);margin-bottom:4px;}
+.hstep-desc{font-size:0.84rem;color:var(--c-muted);line-height:1.6;}
+.how-panel{background:rgba(8,12,26,0.85);border:1px solid var(--c-border);border-radius:20px;padding:40px;min-height:300px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 20px 60px rgba(0,0,0,0.5);position:relative;overflow:hidden;backdrop-filter:blur(20px);}
+.how-panel::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,233,0.1),transparent);}
+.hp-num{font-family:var(--font-head);font-weight:800;font-size:6rem;line-height:1;background:linear-gradient(135deg,rgba(14,165,233,0.2),transparent);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px;}
+.hp-title{font-family:var(--font-head);font-weight:700;font-size:1.6rem;color:var(--c-white);margin-bottom:12px;}
+.hp-desc{font-size:0.95rem;color:var(--c-muted);line-height:1.75;}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:start;}
+.contact-form-card{background:rgba(8,12,26,0.85);border:1px solid var(--c-border);border-radius:20px;padding:40px;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+.form-row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.fg label{font-size:0.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--c-blue);}
+.fg input,.fg select,.fg textarea{background:rgba(255,255,255,0.05);border:1px solid rgba(14,165,233,0.2);border-radius:10px;padding:13px 16px;color:var(--c-white);font-family:var(--font-body);font-size:0.95rem;outline:none;transition:border-color 0.3s,box-shadow 0.3s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--c-blue);box-shadow:0 0 0 3px rgba(14,165,233,0.1);}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(148,163,184,0.35);}
+.fg select option{background:#080c1a;}
+.fg textarea{min-height:110px;resize:vertical;}
+.fsub{width:100%;padding:15px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--c-blue),var(--c-indigo));color:#fff;font-family:var(--font-head);font-weight:700;font-size:0.88rem;letter-spacing:1.5px;cursor:pointer;transition:all 0.3s;margin-top:6px;box-shadow:0 0 20px rgba(14,165,233,0.2);position:relative;overflow:hidden;}
+.fsub::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.15),transparent);transform:translateX(-100%);animation:shim 3s infinite;}
+.fsub:hover{transform:translateY(-2px);box-shadow:0 0 40px rgba(14,165,233,0.4);}
+
+.contact-right h3{font-family:var(--font-head);font-weight:800;font-size:2.4rem;line-height:1.15;color:var(--c-white);margin-bottom:14px;}
+.contact-right h3 span{background:linear-gradient(90deg,var(--c-blue),var(--c-amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.contact-right p{font-size:0.98rem;color:var(--c-muted);line-height:1.8;margin-bottom:32px;}
+.cinfo{display:flex;flex-direction:column;gap:12px;}
+.citem{display:flex;align-items:center;gap:14px;padding:15px 18px;background:rgba(8,12,26,0.75);border:1px solid var(--c-border);border-radius:12px;font-size:0.9rem;color:#b8cce0;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;}
+.citem:hover{transform:translateX(8px);border-color:var(--c-blue);box-shadow:0 0 20px rgba(14,165,233,0.1);}
+.citem-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:rgba(14,165,233,0.1);font-size:1rem;flex-shrink:0;}
+
+/* FOOTER */
+footer{padding:38px 6%;z-index:1;position:relative;border-top:1px solid rgba(14,165,233,0.1);display:flex;align-items:center;justify-content:space-between;}
+.foot-brand{font-family:var(--font-head);font-weight:800;font-size:1.1rem;letter-spacing:3px;background:linear-gradient(90deg,var(--c-blue),var(--c-amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.foot-copy{font-size:0.8rem;color:rgba(148,163,184,0.4);}
+
+/* SCROLL REVEAL */
+.sr{opacity:0;transform:translateY(36px);transition:opacity 0.85s ease,transform 0.85s ease;}
+.sr.sl{transform:translateX(-44px);}
+.sr.sr-r{transform:translateX(44px);}
+.sr.on{opacity:1!important;transform:translate(0)!important;}
+.d1{transition-delay:0.08s}.d2{transition-delay:0.18s}.d3{transition-delay:0.28s}.d4{transition-delay:0.38s}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .nav-links{display:none;}
+  .about-grid,.how-grid,.contact-grid{grid-template-columns:1fr;gap:48px;}
+  .plans-grid{grid-template-columns:1fr;max-width:460px;}
+  .astats{grid-template-columns:1fr 1fr 1fr;}
+  .form-row2{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:10px;text-align:center;}
+  .mockup-side{display:none;}
+  .mockup-main{width:280px;}
+  .how-panel{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+<div class="bg-mesh"></div>
+<div class="bg-grid"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-brand">
+    <img src="photo-output.png" alt="LEVYNOX" onerror="this.style.display='none'">
+    <span class="nav-brand-name">LEVYNOX</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#plans">Plans</a></li>
+    <li><a href="#how">Process</a></li>
+    <li><a href="#contact" class="nav-btn">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="orb orb-c"></div>
+
+  <div class="hero-badge"><span class="badge-dot"></span> NOW SERVING SMALL &amp; MEDIUM ENTERPRISES</div>
+
+  <h1>
+    <span class="h1-plain">Your Business.</span>
+    <span class="h1-grad">Online. Elevated.</span>
+  </h1>
+
+  <p class="hero-sub">LEVYNOX builds stunning, high-performance websites that showcase your features, tell your story, and convert visitors into customers.</p>
+
+  <div class="hero-actions">
+    <a href="#plans" class="btn-glow">View Our Plans</a>
+    <a href="#contact" class="btn-ghost">Talk to Us</a>
+  </div>
+
+  <div class="hero-visual">
+    <div class="mockup-wrap">
+      <div class="mockup-card mockup-side">
+        <div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+        <div class="mock-line ml-blue w80"></div>
+        <div class="mock-line ml-dim w100"></div>
+        <div class="mock-line ml-dim w60"></div>
+        <div class="mock-grid"><div class="mock-block"></div><div class="mock-block amb"></div></div>
+      </div>
+      <div class="mockup-card mockup-main">
+        <div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+        <div class="mock-line ml-blue w60"></div>
+        <div class="mock-line ml-dim w100"></div>
+        <div class="mock-line ml-dim w80"></div>
+        <div class="mock-line ml-dim w40"></div>
+        <div class="mock-grid"><div class="mock-block"></div><div class="mock-block"></div><div class="mock-block amb"></div><div class="mock-block"></div></div>
+      </div>
+      <div class="mockup-card mockup-side">
+        <div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+        <div class="mock-line ml-blue w100"></div>
+        <div class="mock-line ml-dim w80"></div>
+        <div class="mock-line ml-dim w60"></div>
+        <div class="mock-grid"><div class="mock-block amb"></div><div class="mock-block"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><div class="scroll-line"></div>scroll</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="about-grid">
+    <div>
+      <p class="sec-label sr">Who We Are</p>
+      <h2 class="sec-title sr d1">We Build Websites <span>That Mean Business</span></h2>
+      <p class="sec-desc sr d2">LEVYNOX is a startup on a mission — give every enterprise a digital presence that actually works. Whether you're just starting or ready to scale, we have a plan built for you.</p>
+      <div class="astats sr d3">
+        <div class="astat"><div class="astat-val" data-count="2">2</div><div class="astat-lbl">Service Plans</div></div>
+        <div class="astat"><div class="astat-val">∞</div><div class="astat-lbl">Possibilities</div></div>
+        <div class="astat"><div class="astat-val" data-count="100">100</div><div class="astat-lbl">% Custom</div></div>
+      </div>
+    </div>
+    <div class="about-vis sr sr-r">
+      <div class="about-big">LX</div>
+      <div class="about-cards">
+        <div class="acard"><div class="acard-icon ib">🚀</div><div><div class="acard-title">Fast Delivery</div><div class="acard-desc">Launch-ready websites built with speed and precision</div></div></div>
+        <div class="acard"><div class="acard-icon ia">✦</div><div><div class="acard-title">Fully Custom</div><div class="acard-desc">Every site tailored to your brand identity and goals</div></div></div>
+        <div class="acard"><div class="acard-icon ii">📱</div><div><div class="acard-title">Mobile First</div><div class="acard-desc">Pixel-perfect on every device, every screen size</div></div></div>
+        <div class="acard"><div class="acard-icon ib">🎯</div><div><div class="acard-title">Business Focused</div><div class="acard-desc">Built to showcase features, drive leads & conversions</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PLANS -->
+<section class="section" id="plans">
+  <div class="plans-head">
+    <p class="sec-label sr" style="justify-content:center;">Our Offerings</p>
+    <h2 class="sec-title sr d1">Pick the Plan That <span>Fits Your Business</span></h2>
+    <p class="sec-desc sr d2" style="margin:0 auto;">Two tiers built for exactly where you are — and where you're headed.</p>
+  </div>
+  <div class="plans-grid">
+    <div class="plan plan-b sr sl d2">
+      <div class="plan-eye">Small Enterprise</div>
+      <div class="plan-name">Basic</div>
+      <p class="plan-tagline">A clean, professional flat website that puts your business on the map.</p>
+      <div class="plan-divider"></div>
+      <div class="plan-feat"><div class="pcheck">✓</div>Professional Landing Page</div>
+      <div class="plan-feat"><div class="pcheck">✓</div>Business Features Showcase</div>
+      <div class="plan-feat"><div class="pcheck">✓</div>Contact &amp; Info Section</div>
+      <div class="plan-feat"><div class="pcheck">✓</div>Mobile Responsive Design</div>
+      <div class="plan-feat"><div class="pcheck">✓</div>Fast Loading &amp; SEO Ready</div>
+      <div class="plan-feat"><div class="pcheck">✓</div>1 Revision Round</div>
+      <button class="plan-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">GET STARTED →</button>
+    </div>
+    <div class="plan plan-p sr sr-r d3">
+      <div class="pop-tag">⭐ POPULAR</div>
+      <div class="plan-eye">Medium Enterprise</div>
+      <div class="plan-name">Premium</div>
+      <p class="plan-tagline">Advanced tech, animations &amp; multi-page power for ambitious brands.</p>
+      <div class="plan-divider"></div>
+      <div class="plan-feat"><div class="pcheck">✓</div>Everything in Basic</div>
+      <div class="plan-feat"><div class="pcheck">✓</div>Multi-Page Architecture</div>
+      <div class="plan-feat"><div class="pcheck">✓</div>Advanced Animations &amp; Effects</div>
+      <div class="plan-feat"><div class="pcheck">✓</div>CMS / Blog Integration</div>
+      <div class="plan-feat"><div class="pcheck">✓</div>Analytics Dashboard</div>
+      <div class="plan-feat"><div class="pcheck">✓</div>Priority Support &amp; 3 Revisions</div>
+      <button class="plan-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">GET PREMIUM →</button>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="how-grid">
+    <div>
+      <p class="sec-label sr">Our Process</p>
+      <h2 class="sec-title sr d1">Simple Steps to <span>Go Live</span></h2>
+      <p class="sec-desc sr d2" style="margin-bottom:36px;">Transparent, fast, and stress-free — from first chat to launch day.</p>
+      <div class="how-steps-list">
+        <div class="hstep active sr d2" onclick="setStep(0)">
+          <div class="hnum">01</div>
+          <div><div class="hstep-title">Discovery Call</div><div class="hstep-desc">We learn about your business, goals, and audience.</div></div>
+        </div>
+        <div class="hstep sr d3" onclick="setStep(1)">
+          <div class="hnum">02</div>
+          <div><div class="hstep-title">Custom Design</div><div class="hstep-desc">We craft a design that perfectly matches your brand.</div></div>
+        </div>
+        <div class="hstep sr d3" onclick="setStep(2)">
+          <div class="hnum">03</div>
+          <div><div class="hstep-title">Development</div><div class="hstep-desc">Clean, fast, SEO-optimized code — built right.</div></div>
+        </div>
+        <div class="hstep sr d4" onclick="setStep(3)">
+          <div class="hnum">04</div>
+          <div><div class="hstep-title">Launch 🚀</div><div class="hstep-desc">Your business goes live, ready to attract customers.</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="how-panel sr sr-r" id="how-panel">
+      <div class="hp-num" id="hp-num">01</div>
+      <div class="hp-title" id="hp-title">Discovery Call</div>
+      <div class="hp-desc" id="hp-desc">We start with a conversation to understand your business, your goals, your audience, and what makes you different. This shapes everything we build.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="contact-grid">
+    <div class="contact-right">
+      <p class="sec-label sr">Get In Touch</p>
+      <h3 class="sr d1">Let's Build <span>Something Great</span></h3>
+      <p class="sr d2">Whether you're just starting out or scaling up, LEVYNOX is your digital growth partner. Reach out and let's bring your business online.</p>
+      <div class="cinfo">
+        <div class="citem sr d2"><div class="citem-icon">📧</div>hello@levynox.com</div>
+        <div class="citem sr d3"><div class="citem-icon">🌐</div>www.levynox.com</div>
+        <div class="citem sr d3"><div class="citem-icon">⚡</div>Fast Response Guaranteed</div>
+        <div class="citem sr d4"><div class="citem-icon">🛡️</div>Startup-Friendly Pricing</div>
+      </div>
+    </div>
+    <div class="contact-form-card sr sr-r">
+      <form onsubmit="handleSubmit(event)">
+        <div class="form-row2">
+          <div class="fg"><label>Your Name</label><input type="text" placeholder="John Doe" required></div>
+          <div class="fg"><label>Email</label><input type="email" placeholder="john@business.com" required></div>
+        </div>
+        <div class="fg"><label>Business Name</label><input type="text" placeholder="Your Business Name"></div>
+        <div class="fg"><label>Select Plan</label>
+          <select><option value="">Choose a Plan...</option><option>Basic — Small Enterprise</option><option>Premium — Medium Enterprise</option><option>Not sure yet</option></select>
+        </div>
+        <div class="fg"><label>Tell Us More</label><textarea placeholder="Briefly describe your business and what you need..."></textarea></div>
+        <button type="submit" class="fsub">SEND INQUIRY →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">LEVYNOX</div>
+  <div class="foot-copy">© 2025 LEVYNOX. All rights reserved.</div>
+</footer>
+
+<script>
+// CURSOR
+const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function anim(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
+document.querySelectorAll('a,button,.acard,.plan,.hstep,.citem').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.transform='translate(-50%,-50%) scale(1.8)';ring.style.borderColor='rgba(14,165,233,0.8)';dot.style.transform='translate(-50%,-50%) scale(0.4)';});
+  el.addEventListener('mouseleave',()=>{ring.style.transform='translate(-50%,-50%) scale(1)';ring.style.borderColor='rgba(14,165,233,0.5)';dot.style.transform='translate(-50%,-50%) scale(1)';});
+});
+
+// SCROLL REVEAL
+const srEls=document.querySelectorAll('.sr');
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+srEls.forEach(el=>obs.observe(el));
+setTimeout(()=>srEls.forEach(el=>{const r=el.getBoundingClientRect();if(r.top<window.innerHeight)el.classList.add('on');}),120);
+
+// HOW IT WORKS
+const stepData=[
+  {n:'01',t:'Discovery Call',d:'We start with a conversation to understand your business, goals, audience, and what makes you unique. This shapes everything we build.'},
+  {n:'02',t:'Custom Design',d:'Our designers craft a stunning, on-brand visual identity for your website — layouts, colors, typography — made just for you.'},
+  {n:'03',t:'Development',d:'We write clean, optimized code that loads fast, ranks on search engines, and looks pixel-perfect on every device.'},
+  {n:'04',t:'Launch 🚀',d:'Your website goes live! We handle deployment and ensure everything runs smoothly so you can start attracting customers right away.'},
+];
+function setStep(i){
+  document.querySelectorAll('.hstep').forEach((s,x)=>s.classList.toggle('active',x===i));
+  const p=stepData[i];
+  const panel=document.getElementById('how-panel');
+  panel.style.opacity='0';panel.style.transform='translateY(12px)';
+  setTimeout(()=>{
+    document.getElementById('hp-num').textContent=p.n;
+    document.getElementById('hp-title').textContent=p.t;
+    document.getElementById('hp-desc').textContent=p.d;
+    panel.style.transition='opacity 0.4s ease,transform 0.4s ease';
+    panel.style.opacity='1';panel.style.transform='translateY(0)';
+  },180);
+}
+
+// COUNT UP
+const cObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const el=e.target,end=parseInt(el.dataset.count);if(!isNaN(end)){let c=0;const t=setInterval(()=>{c=Math.min(c+Math.ceil(end/40),end);el.textContent=c;if(c>=end)clearInterval(t);},35);}cObs.unobserve(el);}});},{threshold:0.5});
+document.querySelectorAll('[data-count]').forEach(el=>cObs.observe(el));
+
+// FORM
+function handleSubmit(e){
+  e.preventDefault();
+  const btn=e.target.querySelector('.fsub');
+  btn.textContent='✓ INQUIRY SENT!';btn.style.background='linear-gradient(135deg,#22c55e,#16a34a)';
+  setTimeout(()=>{btn.textContent='SEND INQUIRY →';btn.style.background='';e.target.reset();},3000);
+}
+
+// PARALLAX
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  document.querySelector('.orb-a').style.transform=`translateY(${y*0.12}px)`;
+  document.querySelector('.orb-b').style.transform=`translateY(${-y*0.08}px)`;
+});
+</script>
+</body>
+</html>
